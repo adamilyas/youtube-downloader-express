@@ -37,7 +37,7 @@
 					let audioQuality = document.querySelector('.AudioQuality').value;
 					let urlInput = document.querySelector('.UrlInput').value;
 					let postData = {urlInput: urlInput, audioQuality: audioQuality};
-					let serverUrl = "http://localhost:8080"; // TODO: dont hard code this
+					let serverUrl = "https://youtubeaudiodownload.herokuapp.com"; // TODO: dont hard code this
 					let endpoint = `${serverUrl}/downloadmp3`;
 
 					window.location.href = `${endpoint}?urlInput=${urlInput}&audioQuality=${audioQuality}`;
