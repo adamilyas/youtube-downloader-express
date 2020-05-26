@@ -16,4 +16,5 @@ npm install --save-dev tslint
 ```
 
 ## Deploying to heroku
+Be sure to download Heroku CLI. From CMD, run `heroku login`
 
