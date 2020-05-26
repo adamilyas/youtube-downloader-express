@@ -1,0 +1,60 @@
+*, html {
+    padding: 0;
+    margin: 0;
+    font-family: Calibri;
+}
+
+.Layout {
+    width: 50%;
+    /* background-color: aqua; */
+    position: relative;
+    margin: auto;
+}
+
+.Header {
+    height: 200px;
+}
+
+.DownloadTitle {
+    margin-bottom: 40px;
+    font-size: 40px;
+}
+
+.InputInstruction {
+    font-size: 25px;    
+}
+
+.SearchBar {
+    width: 100%;
+}
+
+.SearchBar > input {
+    border: none;
+    height: 20px;
+    width: 500px;
+    border:1px solid #eaeaea;
+    outline:none;
+}
+
+.SearchBar > * {
+    padding: 10px;
+    font-size: 25px;
+}
+
+.SearchBar > input:hover{
+    border-color: #a0a0a0 #b9b9b9 #b9b9b9 #b9b9b9;
+}
+
+.SearchBar > input:hover{
+    border-color:#4d90fe;
+}
+
+.SearchBar > .AudioQuality{
+    border:1px solid #eaeaea;
+    outline:none;
+}
+
+.DownloadButton {
+    border:1px solid #eaeaea;
+    outline:none;
+}

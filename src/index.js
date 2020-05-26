@@ -41,30 +41,52 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var express_1 = __importDefault(require("express"));
 var ytdl_core_1 = __importDefault(require("ytdl-core"));
+var cors_1 = __importDefault(require("cors"));
 var app = express_1.default();
 var port = 8080; // default port to listen
-app.use(express_1.default.json()); // <==== parse request body as JSON
+app.use(express_1.default.json()); // parse request body as JSON
+app.use(express_1.default.static(__dirname)); // serve static html folders
+app.use(express_1.default.static("public")); // set public to be static folder
+app.use(cors_1.default()); // so that endpoint can be reached from browser
 // define a route handler for the default home page
 app.get("/_health", function (_req, res) {
     res.send("ok");
 });
-app.post("/downloadmp3", function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var url, title_1, error_1;
+app.get("/downloadmp3", function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
+    var url, audioQuality, title_1, lengthSeconds_1, errorMessage_1, error_1;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
                 _a.trys.push([0, 2, , 3]);
-                url = req.body.url;
+                url = String(req.query.urlInput);
+                audioQuality = String(req.query.audioQuality);
+                // tslint:disable-next-line:no-console
+                console.log(url + " and " + audioQuality);
+                if (url == null || audioQuality == null || audioQuality !== "lowestaudio" && audioQuality !== "highestaudio") {
+                    return [2 /*return*/, res.json({ error: "url / audioQuality must be defined properly." })];
+                }
                 title_1 = "audio";
-                return [4 /*yield*/, ytdl_core_1.default.getBasicInfo(url, function (_err, info) {
-                        title_1 = info.player_response.videoDetails.title;
+                return [4 /*yield*/, ytdl_core_1.default.getBasicInfo(url, function (error, info) {
+                        if (error) {
+                            errorMessage_1 = "please check url";
+                        }
+                        else {
+                            title_1 = info.player_response.videoDetails.title;
+                            lengthSeconds_1 = info.player_response.videoDetails.lengthSeconds;
+                            if (lengthSeconds_1 > 30 * 60) {
+                                errorMessage_1 = "Length of " + lengthSeconds_1 / 60 + " minutes is too long. Please keep the videos below 30 mins";
+                            }
+                        }
                     })];
             case 1:
                 _a.sent();
+                if (errorMessage_1) {
+                    return [2 /*return*/, res.json({ error: errorMessage_1 })];
+                }
                 res.header('Content-Disposition', "attachment; filename=\"" + title_1 + ".mp3\"");
                 ytdl_core_1.default(url, {
                     filter: 'audioonly',
-                    quality: 'highestaudio'
+                    quality: audioQuality
                 }).pipe(res);
                 return [3 /*break*/, 3];
             case 2:

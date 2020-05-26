@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang='en'>
+
+<head>
+	<link rel='stylesheet' href='./style.css'/>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+	<title>Youtube Downloader</title>
+</head>
+
+<body>
+	<div class="Container">
+		<div class="Layout">
+
+
+			<div class="Header">
+
+			</div>
+
+			<div>
+				<h1 class='DownloadTitle'>Download Audio From Youtube</h1>
+				<p class="InputInstruction">Input the youtube url.</p>
+				<div class="SearchBar">
+					<input class='UrlInput' placeholder='https://www.youtube.com/watch?v=MtN1YnoL46Q'/>
+					<select class='AudioQuality'>
+						<option value='highestaudio'>Quality: High</option>
+						<option value='lowestaudio'>Quality: Low</option>
+					</select>
+					<button class="DownloadButton" onclick="sendDownloadRequest();">Download</button>
+				</div>
+			
+			
+				
+			</div>
+		
+			<script>
+				sendDownloadRequest = () => {
+					let audioQuality = document.querySelector('.AudioQuality').value;
+					let urlInput = document.querySelector('.UrlInput').value;
+					let postData = {urlInput: urlInput, audioQuality: audioQuality};
+					let serverUrl = "http://localhost:8080"; // TODO: dont hard code this
+					let endpoint = `${serverUrl}/downloadmp3`;
+
+					window.location.href = `${endpoint}?urlInput=${urlInput}&audioQuality=${audioQuality}`;
+				}
+			</script>
+		</div>
+	</div>
+</body>
+</html>
+
