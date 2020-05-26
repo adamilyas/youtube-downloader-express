@@ -4,8 +4,8 @@ This project can be used as template for a typescript-express backend
 
 ## Running
 ```
-npm install
-node .
+npm i
+npm run dev
 ```
 
 ## Install
@@ -14,3 +14,6 @@ npm install typescript
 npm init
 npm install --save-dev tslint
 ```
+
+## Deploying to heroku
+
