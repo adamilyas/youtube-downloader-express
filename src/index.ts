@@ -58,7 +58,7 @@ app.get( "/downloadmp3", async ( req: express.Request, res: express.Response ) =
 } );
 
 // start the express server
-app.listen( port, () => {
+app.listen( process.env.PORT || port, () => {
     // tslint:disable-next-line:no-console
     console.log( `server started at http://localhost:${ port }` );
 } );
