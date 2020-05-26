@@ -3,7 +3,7 @@ import ytdl from "ytdl-core";
 import cors from "cors";
 
 const app: express.Application = express();
-const port: number = 8080; // default port to listen
+app.set('port', (process.env.PORT || 5000)) // default port to listen
 
 app.use(express.json());                // parse request body as JSON
 app.use(express.static(__dirname));     // serve static html folders
@@ -58,7 +58,7 @@ app.get( "/downloadmp3", async ( req: express.Request, res: express.Response ) =
 } );
 
 // start the express server
-app.listen( process.env.PORT || port, () => {
+app.listen(app.get('port'), () => {
     // tslint:disable-next-line:no-console
-    console.log( `server started at http://localhost:${ port }` );
-} );
+    console.log("Node app is running at localhost:" + app.get('port'))
+  })
