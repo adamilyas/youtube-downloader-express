@@ -5,10 +5,8 @@
 }
 
 .Layout {
-    width: 50%;
-    /* background-color: aqua; */
+    margin-left: 25%;
     position: relative;
-    margin: auto;
 }
 
 .Header {
