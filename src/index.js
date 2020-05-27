@@ -42,12 +42,19 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var express_1 = __importDefault(require("express"));
 var ytdl_core_1 = __importDefault(require("ytdl-core"));
 var cors_1 = __importDefault(require("cors"));
+var express_rate_limit_1 = __importDefault(require("express-rate-limit"));
 var app = express_1.default();
-var port = 8080; // default port to listen
+app.set('port', (process.env.PORT || 5000)); // default port to listen
 app.use(express_1.default.json()); // parse request body as JSON
 app.use(express_1.default.static(__dirname)); // serve static html folders
 app.use(express_1.default.static("public")); // set public to be static folder
 app.use(cors_1.default()); // so that endpoint can be reached from browser
+var apiLimiter = express_rate_limit_1.default({
+    windowMs: 60 * 1000,
+    max: 4,
+    message: 'You have exceeded the api limit per minute'
+});
+app.use("/downloadmp3", apiLimiter);
 // define a route handler for the default home page
 app.get("/_health", function (_req, res) {
     res.send("ok");
@@ -73,6 +80,8 @@ app.get("/downloadmp3", function (req, res) { return __awaiter(void 0, void 0, v
                         else {
                             title_1 = info.player_response.videoDetails.title;
                             lengthSeconds_1 = info.player_response.videoDetails.lengthSeconds;
+                            // tslint:disable-next-line:no-console
+                            console.log("title : " + title_1);
                             if (lengthSeconds_1 > 30 * 60) {
                                 errorMessage_1 = "Length of " + lengthSeconds_1 / 60 + " minutes is too long. Please keep the videos below 30 mins";
                             }
@@ -83,7 +92,7 @@ app.get("/downloadmp3", function (req, res) { return __awaiter(void 0, void 0, v
                 if (errorMessage_1) {
                     return [2 /*return*/, res.json({ error: errorMessage_1 })];
                 }
-                res.header('Content-Disposition', "attachment; filename=\"" + title_1 + ".mp3\"");
+                res.header('Content-Disposition', "attachment; filename=\"audio.mp3\"");
                 ytdl_core_1.default(url, {
                     filter: 'audioonly',
                     quality: audioQuality
@@ -98,7 +107,7 @@ app.get("/downloadmp3", function (req, res) { return __awaiter(void 0, void 0, v
     });
 }); });
 // start the express server
-app.listen(port, function () {
+app.listen(app.get('port'), function () {
     // tslint:disable-next-line:no-console
-    console.log("server started at http://localhost:" + port);
+    console.log("Node app is running at localhost:" + app.get('port'));
 });
