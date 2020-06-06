@@ -12,9 +12,7 @@
 		<div class="Layout">
 
 
-			<div class="Header">
-
-			</div>
+			<div class="Header"></div>
 
 			<div>
 				<h1 class='DownloadTitle'>Download Audio From Youtube</h1>
@@ -27,20 +25,38 @@
 					</select>
 					<button class="DownloadButton" onclick="sendDownloadRequest();">Download</button>
 				</div>
-			
-			
-				
+			</div>
+
+
+			<div class="ResponseRow">
+				<p class="ResponseMessage"></p>
+			</div>
+
+			<div class="InfoRow">
+				<div><a target="_blank" href="https://adamilyas.github.io/">About Me</a></div>
+				<div><a target="_blank" href="https://github.com/adamilyas/">Github</a></div>
+				<div><a target="_blank" href="https://www.linkedin.com/in/adamilyas/">LinkedIn</a></div>
 			</div>
 		
 			<script>
 				sendDownloadRequest = () => {
+					const inputInstructionMessage = "Input the youtube url.";
+
 					let audioQuality = document.querySelector('.AudioQuality').value;
 					let urlInput = document.querySelector('.UrlInput').value;
+					if (!urlInput.includes("youtube") || !urlInput.includes("watch")){
+					const inputInstructionMessage = "Input the youtube url.";
+						$(".InputInstruction").text("Please check the youtube url again.").css({color: "red"})
+						return;
+					}
+
 					let postData = {urlInput: urlInput, audioQuality: audioQuality};
-					let serverUrl = "https://youtubeaudiodownload.herokuapp.com"; // TODO: dont hard code this
+					let serverUrl = "https://youtubeaudiodownload.herokuapp.com"; // process.env.server_host || "https://localhost:5000"
 					let endpoint = `${serverUrl}/downloadmp3`;
 
 					window.location.href = `${endpoint}?urlInput=${urlInput}&audioQuality=${audioQuality}`;
+					$(".InputInstruction").text("Downloading . . .").css({color: "black"})
+
 				}
 			</script>
 		</div>

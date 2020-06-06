@@ -56,3 +56,29 @@
     border:1px solid #eaeaea;
     outline:none;
 }
+
+.DownloadButton:hover {
+    background-color: skyblue;
+    border-radius: 10px;
+}
+
+.ResponseRow {
+    height: 80px;
+}
+
+.InfoRow {
+    display: flex;
+}
+
+.InfoRow > div{
+    margin-right: 50px;
+    padding: 10px;
+    background-color: #FEADB9;
+    width: 80px;
+    text-align: center;
+}
+
+.InfoRow a{
+    text-decoration: none;
+    color: black;
+}
